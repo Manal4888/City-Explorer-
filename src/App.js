@@ -3,6 +3,7 @@
   import Form from 'react-bootstrap/Form'
   import axios from 'axios'
   import Button from 'react-bootstrap/Button'
+  
   class App extends React.Component{
     
   
@@ -12,6 +13,7 @@
         displayName:'',
         latitude:'',
         longitude:'', 
+        show:false,
       }
       
   
@@ -33,7 +35,7 @@
           displayName:locResult.data[0].display_name,
           latitude:locResult.data[0].lat,
           longitude:locResult.data[0].lon,
-  
+          show:true,
         })
   
        
@@ -44,12 +46,51 @@
     
   
   render() {
+    
+    const style1 = {
+      color: "blue",
+      backgroundColor: "lightblue",
+      padding: "50px",
+      fontFamily: "Arial",
+       width:" 300px",
+       marginLeft:"500px"
+       
+    };
+
+    const style2 = {
+      color: "blue",
+      backgroundColor: "yellow",
+      padding: "50px",
+      fontFamily: "Arial",
+       width:" 300px",
+       marginLeft:"500px",
+        
+       
+    };
+    
+      const style3 = {
+      color: "blue",
+      backgroundColor: "lightblue",
+      padding: "10px",
+      fontFamily: "Arial",
+      fontWeight: 'bold',
+      width:" 150px",
+       marginLeft:"110px",
+       marginTop:"50px"
+       
+    };
+    
     return(
       <>
-     <h1>
+
+      
+     <header style={style1}>
+     <h1 style={{color: "black"}}>
      City Explorer
      </h1>
-        <Form onSubmit={this.getData}>
+     </header>
+     
+        <Form onSubmit={this.getData} style={style2}>
           <Form.Group className="mb-3" controlId="formBasicEmail" >
             <Form.Label> The City Name </Form.Label>
             <Form.Control type="text" name='city'  placeholder="Enter valid location" />
@@ -66,7 +107,7 @@
             <Form.Check type="checkbox" label="Check me out" />
           </Form.Group> */}
           
-          <Button variant="primary" type="submit" >
+          <Button variant="primary" type="submit"style={style3} >
           Explore
           </Button>
         </Form>
@@ -74,6 +115,13 @@
         {this.state.latitude}
         {this.state.longitude}
 
+
+        
+        
+        {this.state.show &&
+          <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.f003d9a37ccabbf3e380637a146e9c6a&center=${this.state.latitude},${this.state.longitude}&zoom=1-18`}/>
+          }
+          
       </>
     )
   }
