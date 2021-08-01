@@ -91,6 +91,8 @@
     
     return(
       <>
+<body style={{backgroundColor: "gray"}}>
+
 
       
      <header style={style1}>
@@ -137,7 +139,7 @@
 
         
         {this.state.show &&
-        <p> 
+        <p style={{marginLeft:"500px"}}>  
         {this.state.displayName}
         {this.state.latitude}
         {this.state.longitude}
@@ -145,12 +147,13 @@
            }
 
         {this.state.show &&
-          <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.f003d9a37ccabbf3e380637a146e9c6a&center=${this.state.latitude},${this.state.longitude}&zoom=1-18`}/>
+          <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.f003d9a37ccabbf3e380637a146e9c6a&center=${this.state.latitude},${this.state.longitude}&zoom=1-18`} style={{marginLeft:"400px"}}/>
           }
           
 
-       
+</body>      
       </>
+
     )
   }
 }
