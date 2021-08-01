@@ -3,6 +3,7 @@
   import Form from 'react-bootstrap/Form'
   import axios from 'axios'
   import Button from 'react-bootstrap/Button'
+  import Alert from 'react-bootstrap/Alert'
   
   class App extends React.Component{
     
@@ -14,6 +15,7 @@
         latitude:'',
         longitude:'', 
         show:false,
+        showError:false,
       }
       
   
@@ -29,23 +31,30 @@
        let URL= `https://us1.locationiq.com/v1/search.php?key=pk.f003d9a37ccabbf3e380637a146e9c6a&q=${cityName}&format=json`;
        console.log({URL})
   
-       let locResult= await axios.get(URL);
+       
+       try{
+         let locResult= await axios.get(URL);
         
         this.setState({
           displayName:locResult.data[0].display_name,
           latitude:locResult.data[0].lat,
           longitude:locResult.data[0].lon,
           show:true,
+          showError:false,
         })
-  
-       
-      
+       }
+       catch{
+
+        this.setState({
+          showError:true,
+       })
+       }
       
      
-    }
+      }
     
   
-  render() {
+  render(){
     
     const style1 = {
       color: "blue",
@@ -111,17 +120,36 @@
           Explore
           </Button>
         </Form>
+        
+
+
+        {this.state.showError&&
+        <Alert variant="erorr" style={style1}>
+           <Alert.Heading> 404 error  </Alert.Heading>
+           <p>
+           this page can't be found
+           </p>
+           <hr />
+           <p className="mb-0">
+             Try again later on !
+           </p>
+         </Alert>}
+
+        
+        {this.state.show &&
+        <p> 
         {this.state.displayName}
         {this.state.latitude}
         {this.state.longitude}
+        </p>
+           }
 
-
-        
-        
         {this.state.show &&
           <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.f003d9a37ccabbf3e380637a146e9c6a&center=${this.state.latitude},${this.state.longitude}&zoom=1-18`}/>
           }
           
+
+       
       </>
     )
   }
