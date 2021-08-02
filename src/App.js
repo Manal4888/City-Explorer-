@@ -5,6 +5,7 @@
   import Button from 'react-bootstrap/Button'
   import Alert from 'react-bootstrap/Alert'
   
+  
   class App extends React.Component{
     
   
@@ -26,34 +27,59 @@
        event.preventDefault();
       
        let cityName=event.target.city.value;
-       console.log({cityName})
+      //  console.log({cityName})
      
-       let URL= `https://us1.locationiq.com/v1/search.php?key=pk.f003d9a37ccabbf3e380637a146e9c6a&q=${cityName}&format=json`;
-       console.log({URL})
+      //  let URL= `https://us1.locationiq.com/v1/search.php?key=pk.f003d9a37ccabbf3e380637a146e9c6a&q=${cityName}&format=json`;
+      //  console.log({URL})
   
-       
-       try{
-         let locResult= await axios.get(URL);
-        
-        this.setState({
-          displayName:locResult.data[0].display_name,
-          latitude:locResult.data[0].lat,
-          longitude:locResult.data[0].lon,
-          show:true,
-          showError:false,
-        })
-       }
-       catch{
+       let URL= `http://localhost:3001/data/weather?name=${cityName}`;
 
-        this.setState({
-          showError:true,
-       })
-       }
+      // let URL= `${http://localhost:3001/data/weather?name=Amman}`;
+      
+      //  console.log({URL})
+  
+      //  try{
+      //    let locResult= await axios.get(URL);
+        
+      //   this.setState({
+      //     displayName:locResult.data[0].display_name,
+      //     latitude:locResult.data[0].lat,
+      //     longitude:locResult.data[0].lon,
+      //     show:true,
+      //     showError:false,
+      //   })
+      //  }
+      //  catch{
+
+      //   this.setState({
+      //     showError:true,
+      //  })
+      //  }
       
      
-      }
+      // }
     
+      try{
+           let locResult= await axios.get(URL);
+          //  console.log(locResult)
+           this.setState({
+            displayName:locResult.data.city_name,
+            latitude:locResult.data.lat,
+            longitude:locResult.data.lon,
+            show:true,
+            showError:false,
+          })
+         }
+         catch{
   
+          this.setState({
+            showError:true,
+         })
+         }
+        
+       
+        }
+      
   render(){
     
     const style1 = {
@@ -105,18 +131,10 @@
           <Form.Group className="mb-3" controlId="formBasicEmail" >
             <Form.Label> The City Name </Form.Label>
             <Form.Control type="text" name='city'  placeholder="Enter valid location" />
-            {/* <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text> */}
+           
           </Form.Group>
 
-          {/* <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Check me out" />
-          </Form.Group> */}
+          
           
           <Button variant="primary" type="submit"style={style3} >
           Explore
