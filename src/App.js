@@ -13,9 +13,11 @@
     constructor(props){
       super(props)
       this.state ={
-        displayName:'',
+         displayName:'',
         latitude:'',
         longitude:'', 
+        lat:'',
+        lon:'', 
         show:false,
         showError:false,
       }
@@ -32,7 +34,7 @@
      
        let URL= `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_SERVER_KEY}&q=${cityName}&format=json`;
        console.log({URL})
-  
+       let  URL1= `${process.env.REACT_APP_SERVER_URL}/data/weather?name=${cityName}`;
         
 
        try{
@@ -44,6 +46,17 @@
           longitude:locResult.data[0].lon,
           show:true,
           showError:false,
+
+        })
+
+          let locResult1= await axios.get(URL1);
+           
+           this.setState({
+            
+            lat:locResult1.data.lat,
+            lon:locResult1.data.lon,
+            show:true,
+            showError:false,
         })
        }
        catch{
@@ -55,124 +68,73 @@
       
      
       
-      // URL= `${process.env.REACT_APP_SERVER_URL}/data/weather?name=${cityName}`;
-      // try{
-      //      let locResult= await axios.get(URL2);
-      //     //  console.log(locResult)
-      //      this.setState({
-      //       displayName:locResult.data.city_name,
-      //       latitude:locResult.data.lat,
-      //       longitude:locResult.data.lon,
-      //       show:true,
-      //       showError:false,
-      //     })
-      //    }
-      //    catch{
+      }
   
-      //     this.setState({
-      //       showError:true,
-      //    })
-      //    }
-        
-       
-        }
+  render()
+  {
   
-  render(){
-    
-    const style1 = {
-      color: "blue",
-      backgroundColor: "lightblue",
-      padding: "50px",
-      fontFamily: "Arial",
-       width:" 300px",
-       marginLeft:"500px"
-       
-    };
-
-    const style2 = {
-      color: "blue",
-      backgroundColor: "yellow",
-      padding: "50px",
-      fontFamily: "Arial",
-       width:" 300px",
-       marginLeft:"500px",
-        
-       
-    };
-    
-      const style3 = {
-      color: "blue",
-      backgroundColor: "lightblue",
-      padding: "10px",
-      fontFamily: "Arial",
-      fontWeight: 'bold',
-      width:" 150px",
-       marginLeft:"110px",
-       marginTop:"50px"
-       
-    };
-    
     return(
-      <>
-<body style={{backgroundColor: "gray"}}>
+          <>
+            <body style={{ backgroundColor: "gray" }}>
 
 
-      
-     <header style={style1}>
-     <h1 style={{color: "black"}}>
-     City Explorer
-     </h1>
-     </header>
-     
-        <Form onSubmit={this.getData} style={style2}>
-          <Form.Group className="mb-3" controlId="formBasicEmail" >
-            <Form.Label> The City Name </Form.Label>
-            <Form.Control type="text" name='city'  placeholder="Enter valid location" />
-           
-          </Form.Group>
 
-          
-          
-          <Button variant="primary" type="submit"style={style3} >
-          Explore
-          </Button>
-        </Form>
-        
+              <header >
+                <h1 style={{ color: "black" }}>
+                  City Explorer
+                </h1>
+              </header>
+
+              <Form onSubmit={this.getData} >
+                <Form.Group className="mb-3" controlId="formBasicEmail" >
+                  <Form.Label> The City Name </Form.Label>
+                  <Form.Control type="text" name='city' placeholder="Enter valid location" />
+
+                </Form.Group>
 
 
-        {this.state.showError&&
-        <Alert variant="erorr" style={style1}>
-           <Alert.Heading> 404 error  </Alert.Heading>
-           <p>
-           this page can't be found
-           </p>
-           <hr />
-           <p className="mb-0">
-             Try again later on !
-           </p>
-         </Alert>}
 
-        
-        {this.state.show &&
-        <p style={{marginLeft:"500px"}}>  
-        {this.state.displayName}
-        {this.state.latitude}
-        {this.state.longitude}
-        </p>
-           }
+                <Button variant="primary" type="submit" >
+                  Explore
+                </Button>
+              </Form>
 
-        {this.state.show &&
+
+
+              {this.state.showError &&
+                <Alert variant="erorr" >
+                  <Alert.Heading> 404 error  </Alert.Heading>
+                  <p>
+                   "Something went wrong."
+                  </p>
+                  <hr />
+                  <p className="mb-0">
+                    Try again later on !
+                  </p>
+                </Alert>}
+
+
+              {this.state.show &&
+                <p style={{ marginLeft: "500px" }}>
+
+                  {`${this.state.displayName}: latitude: ${this.state.lat} langitude:  ${this.state.lon}`}
+
+                </p>
+              }
+
+              {this.state.show &&
           <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_SERVER_KEY}&center=${this.state.latitude},${this.state.longitude}&zoom=1-18`} style={{marginLeft:"400px"}}/>
           }
-          
 
-</body>      
-      </>
 
-    )
-  }
-}
+            </body>
+          </>
 
+        )
+      }
+
+    }
+  
 export default App;
 
 
