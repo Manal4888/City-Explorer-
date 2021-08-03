@@ -6,6 +6,7 @@
   import Alert from 'react-bootstrap/Alert'
   
   
+  
   class App extends React.Component{
     
   
@@ -29,57 +30,53 @@
        let cityName=event.target.city.value;
       //  console.log({cityName})
      
-      //  let URL= `https://us1.locationiq.com/v1/search.php?key=pk.f003d9a37ccabbf3e380637a146e9c6a&q=${cityName}&format=json`;
-      //  console.log({URL})
+       let URL= `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_SERVER_KEY}&q=${cityName}&format=json`;
+       console.log({URL})
   
-       let URL= `http://localhost:3001/data/weather?name=${cityName}`;
-
-      // let URL= `${http://localhost:3001/data/weather?name=Amman}`;
-      
-      //  console.log({URL})
-  
-      //  try{
-      //    let locResult= await axios.get(URL);
         
-      //   this.setState({
-      //     displayName:locResult.data[0].display_name,
-      //     latitude:locResult.data[0].lat,
-      //     longitude:locResult.data[0].lon,
-      //     show:true,
-      //     showError:false,
-      //   })
-      //  }
-      //  catch{
 
-      //   this.setState({
-      //     showError:true,
-      //  })
-      //  }
+       try{
+         let locResult= await axios.get(URL);
+        
+        this.setState({
+          displayName:locResult.data[0].display_name,
+          latitude:locResult.data[0].lat,
+          longitude:locResult.data[0].lon,
+          show:true,
+          showError:false,
+        })
+       }
+       catch{
+
+        this.setState({
+          showError:true,
+       })
+       }
       
      
-      // }
-    
-      try{
-           let locResult= await axios.get(URL);
-          //  console.log(locResult)
-           this.setState({
-            displayName:locResult.data.city_name,
-            latitude:locResult.data.lat,
-            longitude:locResult.data.lon,
-            show:true,
-            showError:false,
-          })
-         }
-         catch{
+      
+      // URL= `${process.env.REACT_APP_SERVER_URL}/data/weather?name=${cityName}`;
+      // try{
+      //      let locResult= await axios.get(URL2);
+      //     //  console.log(locResult)
+      //      this.setState({
+      //       displayName:locResult.data.city_name,
+      //       latitude:locResult.data.lat,
+      //       longitude:locResult.data.lon,
+      //       show:true,
+      //       showError:false,
+      //     })
+      //    }
+      //    catch{
   
-          this.setState({
-            showError:true,
-         })
-         }
+      //     this.setState({
+      //       showError:true,
+      //    })
+      //    }
         
        
         }
-      
+  
   render(){
     
     const style1 = {
@@ -165,7 +162,7 @@
            }
 
         {this.state.show &&
-          <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.f003d9a37ccabbf3e380637a146e9c6a&center=${this.state.latitude},${this.state.longitude}&zoom=1-18`} style={{marginLeft:"400px"}}/>
+          <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_SERVER_KEY}&center=${this.state.latitude},${this.state.longitude}&zoom=1-18`} style={{marginLeft:"400px"}}/>
           }
           
 
